@@ -1,0 +1,116 @@
+EXG Bio-Amp Pill BLE Monitor System
+ESP32-S3 Based Wireless Physiological Signal Acquisition
+
+Author: RAKESH KANABUR
+Hardware: ESP32-S3 Dev Module + Bio-Amp EXG Pill
+
+PROJECT OVERVIEW
+This project implements a wireless biosignal acquisition system using the Bio-Amp EXG Pill (an open-source electrophysiology module) connected to an ESP32-S3 Dev Module. 
+The system captures electromyography (EMG), electrocardiography (ECG), 
+or other biopotential signals and transmits them via Bluetooth Low Energy (BLE) to any compatible receiver (smartphone, PC, or another ESP32).
+
+
+Key Features
+125 Hz sampling rate
+
+4-channel signal transmission
+
+BLE Notify characteristic for real-time data streaming
+
+Digital filtering (IIR bandpass 0.5-100 Hz)
+
+12-bit ADC resolution
+
+11 dB signal attenuation for biopotential range
+
+OTA (Over-The-Air) update capable
+
+Serial debug output at 115200 baud
+
+
+
+Applications
+Wearable health monitoring
+
+Prosthetic control (EMG)
+
+Heart rate monitoring (ECG)
+
+Muscle activity tracking
+
+Research and education
+
+
+HARDWARE REQUIREMENTS
+2.1 Components List
+Component	Quantity	Purpose
+ESP32-S3 Dev Module	1	Main microcontroller & BLE transmitter
+Bio-Amp EXG Pill	1	Biopotential signal acquisition
+Electrodes (Ag/AgCl)	3	Signal pickup (Active, Reference, Ground)
+3.7V Li-Po Battery (400mAh+)	1	Portable power
+Jumper Wires (F-F, M-F)	10	Connections
+USB-C Cable	1	Programming & charging
+Shielded Cables	3	Noise reduction for electrode leads
+
+Bio-Amp EXG Pill Specifications
+Input Voltage: 2.9V - 5.5V
+
+Gain: 1000x (configurable via resistors)
+
+Bandwidth: 0.5 Hz - 250 Hz (ECG/EMG optimized)
+
+CMRR: > 110 dB
+
+Input Noise: < 1 µV RMS
+
+Output: Analog voltage (0-3.3V)
+
+
+
+
+//IMPORTANT
+Board Configuration
+Arduino IDE Settings for ESP32-S3:
+Board: "ESP32S3 Dev Module"
+USB Mode: "USB-OTG"
+USB CDC On Boot: "Enabled"
+Flash Size: "16MB (128Mb)"
+Partition Scheme: "Default 4MB with spiffs"
+PSRAM: "OPI PSRAM"
+Upload Speed: "921600"
+
+
+BLE COMMUNICATION PROTOCOL
+BLE Service Details
+Parameter	Value
+Device Name	"EXG"
+Service UUID	12345678-1234-1234-1234-123456789ABC
+Characteristic UUID	ABCDEF12-3456-7890-1234-567890ABCDEF
+Properties	NOTIFY
+Descriptor	Client Characteristic Configuration (CCC) - 0x2902
+
+
+
+2 Data Format
+Transmission Type: Notifications (no confirmations required)
+
+Data String Format:
+<CH1>,<CH2>,<CH3>,<CH4>
+
+Example:
+
+324.5,298.2,75.3,82.1    // Note Here I generated Random Signal Values- For Real Time Value Need To connect EXG module
+
+Value Ranges:
+
+CH1 (EXG Signal): 0 - 409.5 (scaled from 12-bit ADC)
+
+CH2 (Secondary EXG): 0 - 409.5
+
+CH3 (Simulated): 50 - 100
+
+CH4 (Simulated): 50 - 100
+
+
+Any doubts contact @rakeshkanabur0@gmail.com
+
